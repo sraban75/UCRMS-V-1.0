@@ -1,0 +1,125 @@
+﻿@model UCRMS_V_1._0.Models.MyModels.AssignCourse
+
+@{
+    ViewBag.Title = "Course Assign To Teacher";
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    if (TempData["Successfull"] != null)
+    {
+        <label style="color: green">@TempData["Successfull"]</label>
+    }
+    <div class="form-horizontal">
+        <h2>Course Assign to Teacher</h2>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, "Department", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.DropDownList("DepartmentId", String.Empty)
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, "Teacher", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Partial("LoadTeacher", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div id="TeacherInfo">
+            @Html.Partial("LoadTeacherInfo")
+        </div>
+       <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "Course Code", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Partial("LoadCourse")
+                @Html.ValidationMessageFor(model => model.CourseId,"", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="CourseInfo">
+            @Html.Partial("LoadCourseinfo")
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Assign" id="buttonClick" class="btn btn-success"/>
+            </div>
+        </div>
+       
+    </div>
+}
+@if (ViewBag.sh != null)
+{
+    <script>
+        $("#buttonClick").submitted(function () {
+            var result = confirm("Are you sure you want to assign Course To this Teacher ?");
+            if (result) {
+                document.location = '@Url.Action("Assign","AssignCourses")';
+            }
+            else {
+                alert("Course are not Assigned");
+            }
+
+            return false;
+        });
+    </script>
+}
+<div>
+    @Html.ActionLink("View All Assigning Courses", "ViewAssigningCourses")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/modalscript.js"></script>
+
+<script>
+
+
+    function FillData(id) {
+        $("#TeacherId").load('@Url.Action("LoadTeacher")', { departmentId: id });
+        $("#CourseId").load('@Url.Action("LoadCourse")', { departmentId: id });
+    }
+
+    function FillTeacherInfo(id) {
+        $("#TeacherInfo").load('@Url.Action("LoadTeacherInfo")', { teacherId: id });
+    }
+    function FillCourseInfo(id) {
+        $("#CourseInfo").load('@Url.Action("LoadCourseinfo")', { courseId: id });
+    }
+
+
+    $(document).ready($(function () {
+        $("#DepartmentId").change(function () {
+            var id = $("#DepartmentId").val();
+            FillData(id);
+
+        });
+        $("#TeacherId").change(function () {
+            var id = $("#TeacherId").val();
+            FillTeacherInfo(id);
+
+        });
+
+        $("#CourseId").change(function () {
+            var id = $("#CourseId").val();
+            FillCourseInfo(id);
+
+        });
+
+
+    }));
+</script>

@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "UnallocateClassRoom";
+}
+
+
+<fieldset>
+    <legend>Unallocate Rooms</legend>
+
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (ViewBag.Success != null)
+        {
+            @ViewBag.Success
+        }
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Unallocate Rooms" class="btn btn-danger" id="buttonPressed" />
+                </div>
+            </div>
+        </div>
+    }
+
+</fieldset>
+
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+    $("#buttonPressed").click(function () {
+        var result = confirm("Are you sure you want to unassign all the ClassRoom ?");
+        if (result) {
+            document.location = '@Url.Action("UnallocateClassRoom", "AllocateClassRooms")';
+        }
+        else {
+            alert("Class are not unassigned");
+        }
+
+        return false;
+    });
+</script>

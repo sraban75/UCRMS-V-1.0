@@ -1,0 +1,18 @@
+﻿@model dynamic
+
+<div id="TeacherInfo">
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.CreditToBeTaken, new { @class = "control-label col-md-2" })*@
+        @Html.Label("Credit To Be Taken", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @ViewBag.TakenCredit
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Remaing Credit", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @ViewBag.RemaingCredit
+        </div>
+    </div>
+</div>

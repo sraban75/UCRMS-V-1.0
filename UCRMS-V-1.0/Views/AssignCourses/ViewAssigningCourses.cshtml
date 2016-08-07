@@ -1,0 +1,64 @@
+﻿@model IEnumerable<UCRMS_V_1._0.Models.MyModels.AssignCourse>
+
+@{
+    ViewBag.Title = "ViewAssigningCourses";
+}
+
+<h2>All Assigning Course's List</h2>
+
+<p>
+    @Html.ActionLink("Assign New", "Assign")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Teacher
+        </th>
+        <th>
+            Department
+        </th>
+
+        <th>
+            Course
+        </th>
+
+        <th>
+            Creadit to be Taken
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model=>model.RemainigCredit)*@
+            Remaining Credit
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teacher.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Course.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CreditToBeTaken)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainigCredit)
+            </td>
+
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { id=item.AssignCourseId }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.AssignCourseId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.AssignCourseId })
+                </td>*@
+        </tr>
+    }
+
+</table>

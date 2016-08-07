@@ -1,0 +1,83 @@
+﻿@model UCRMS_V_1._0.Models.MyModels.EnrollCourse
+
+@{
+    ViewBag.Title = "Enroll In a Course";
+}
+
+<h2>Enroll In a Course</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    if (TempData["Msg"] != null)
+    {
+        <h3 style="color: green">@TempData["Msg"]</h3>
+    }
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentId, "Student Reg. No", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StudentId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div id="StudentInfo">
+            @Html.Partial("LoadStudentInfo")
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseId, "Select Course", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.DropDownList("CourseId", null, htmlAttributes: new { @class = "form-control" })*@
+                @Html.Partial("LoadCourse", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Enroll" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("View Enroll Courses", "ViewEnrollCourses")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+    function FillStudentInfo(id) {
+        $("#StudentInfo").load('@Url.Action("LoadStudentInfo")', { studentId: id });
+    }
+    function FillCourse(id) {
+        $("#CourseId").load('@Url.Action("LoadCourse")', { studentId: id });
+    }
+
+    $(document).ready($(function () {
+        $("#StudentId").change(function () {
+            var id = $("#StudentId").val();
+            FillStudentInfo(id);
+            FillCourse(id);
+
+        });
+    }));
+</script>

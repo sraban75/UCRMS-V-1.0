@@ -1,0 +1,95 @@
+﻿@model UCRMS_V_1._0.Models.MyModels.Student
+
+@{
+    ViewBag.Title = "ViewResult";
+    Layout = "";
+}
+
+<h2 style="color: blue">University Of Engineering And Technology</h2>
+
+<fieldset style="border: 1px solid green; padding: 15px">
+
+
+    <legend style="color: green">Student Result Information</legend>
+    <br />
+    <br />
+    <br />
+
+
+    <div id="StudentInfo">
+        <div class="form-group">
+            <b>Registration Number : </b>
+
+            @Html.DisplayFor(model => model.RegNo)
+
+
+        </div>
+
+
+
+        <div class="form-group">
+            <b>Name        : </b>
+            @Html.DisplayFor(model => model.Name)
+
+
+        </div>
+
+        <div class="form-group">
+            <b>Email      :</b>
+            @Html.DisplayFor(model => model.Email)
+
+        </div>
+
+        <div class="form-group">
+            <b>Departmet    :</b>
+            @Html.DisplayFor(model => model.Department.Name)
+
+
+        </div>
+    </div>
+
+    <div id="LoadResultInfo">
+        <table class="table" style="border: 1px solid skyblue; height: 400px; width: 960px">
+            <tr>
+                <th>
+                    Course Code
+                </th>
+                <th>
+                    Course Name
+
+                </th>
+                <th>
+                    Grade
+                </th>
+                <th></th>
+            </tr>
+
+            <tr></tr>
+            @foreach (var item in Model.Courses)
+            {
+                <tr>
+                    <td style="border: 1px solid skyblue">
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td style="border: 1px solid skyblue">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="border: 1px solid skyblue">
+                        @if (item.Grade != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.Grade)
+                        }
+                        else
+                        {
+                            <p>Not Graded Yet</p>
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+    <b style="color: red">Print Date  :  @Model.ResultDate </b>
+</fieldset>

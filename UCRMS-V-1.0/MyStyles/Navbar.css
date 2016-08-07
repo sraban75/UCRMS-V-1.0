@@ -1,0 +1,41 @@
+﻿.navbar-fixed-top {
+    background: #191970;
+}
+
+.navbar-nav {
+    font-weight: bold;
+    color: white;
+}
+
+.navbar-fixed-bottom {
+    background: #778899;
+}
+
+.body-content {
+    width: 100%;
+}
+
+.jumbotron {
+    width: auto;
+    height: 150px;
+    margin-bottom: 10px;
+    background: teal;
+    background-image: url('../Images/images.jpg');
+    background-attachment: fixed;
+}
+
+.bannerContent {
+    color: white;
+    text-align: center;
+
+}
+
+#sideBar {
+    width: 220px;
+
+}
+
+.btn {
+    text-align: left;
+}
+

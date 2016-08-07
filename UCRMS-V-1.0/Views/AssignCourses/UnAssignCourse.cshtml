@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "UnAssignCourse";
+}
+
+<fieldset>
+    <legend>Unassign All Courses</legend>
+
+    <br />
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        if (ViewBag.Success != null)
+        {
+            @ViewBag.Success
+        }
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Unassign Courses" class="btn btn-danger" id="buttonClick" />
+                </div>
+            </div>
+        </div>
+    }
+
+</fieldset>
+
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+    $("#buttonClick").click(function () {
+        var result = confirm("Are you sure you want to unassign all the courses ?");
+        if (result) {
+            document.location = '@Url.Action("UnAssignCourse","AssignCourses")';
+        }
+        else {
+            alert("Courses are not unassigned");
+        }
+
+        return false;
+    });
+</script>

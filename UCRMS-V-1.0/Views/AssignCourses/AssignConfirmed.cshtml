@@ -1,0 +1,14 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "AssignConfirmed";
+}
+
+<div>
+
+    <h3 style="color: green">@TempData["success"]</h3>
+</div>
+<br/>
+<form action="Assign">
+    <input type="submit" value="Assign New Course" class="btn btn-success" />
+</form>

@@ -1,0 +1,101 @@
+﻿@model IEnumerable<UCRMS_V_1._0.Models.MyModels.Course>
+
+@{
+    ViewBag.Title = "ViewSchedule";
+}
+
+<h2>View Class Schedule & Room Allocation Information</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <b>Select Department  </b>
+        @Html.DropDownList("DepartmentId", string.Empty)
+    </div>
+}
+<br /><p>
+    @Html.ActionLink("Allocate New", "Allocate")
+</p>
+<p><br /></p>
+
+
+<p><br /></p>
+
+<div id="ClassScheduleInfo">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Schedule Info
+            </th>
+        </tr>
+        <tbody id="tblViewSchedule"></tbody>
+    </table>
+</div>
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+
+
+
+    $(document).ready(function () {
+
+        function SendAjax(jsData, url, type, successMessage, str) {
+            var returnData = "";
+            $.ajax({
+                async: false,
+                type: type,
+                url: url,
+                data: str === "" ? JSON.stringify(jsData) : jsData, //JSON.stringify(jsData),
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+                    //alert(row);
+                    returnData = data;
+                },
+                error: function () {
+                }
+
+            });
+            return returnData;
+        }
+
+        $("#DepartmentId").change(function () {
+            var id = $("#DepartmentId").val();
+            $.ajax({
+                type: "GET",
+                url: "@(Url.Action("GetCourseByDept", "AllocateClassRooms"))",
+                data: { departmentId: id },
+                contentType: "application/json;charset=utf-8",
+                success: function (data) {
+
+                    var row = "";
+                    $.each(data, function (index, item) {
+                        var assignUrl="@(Url.Action("GetScheduleInfo", "AllocateClassRooms"))";
+                        var scheduleList = SendAjax({ courseId: item.CourseId }, assignUrl, "POST", "", "");
+                        var scheduleTable = "";
+                        $.each(scheduleList, function (index1, scheduleitem) {
+                            //alert(scheduleitem.Schedule);
+                            scheduleTable += "<p>" + scheduleitem.Schedule+"</p>";
+                        });
+
+                        row += "<tr>" +
+                            "<td>" + item.Code + "</td>"+
+                            "<td>" + item.Name + "</td>" +
+                            "<td>" + scheduleTable + "</td>" +
+                            "</tr>";
+                    });
+                    $("#tblViewSchedule").html(row);
+                },
+                error: function () {
+                }
+
+            });
+
+        });
+
+    });
+</script>

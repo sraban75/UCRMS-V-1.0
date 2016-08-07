@@ -1,0 +1,77 @@
+﻿@model IEnumerable<UCRMS_V_1._0.Models.MyModels.Course>
+
+@{
+    ViewBag.Title = "View Course Statics";
+}
+
+<h2>View Course Statics</h2>
+
+
+
+
+@using (Html.BeginForm())
+{
+    <div>
+        <b>Select Department  </b>
+        @Html.DropDownList("DepartmentId", string.Empty)
+    </div>
+}
+<p><br /></p>
+
+<h2>Course Information</h2>
+<p><br /></p>
+
+
+<div id="CourseStatics">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Code
+            </th>
+            <th>
+                Name/Title
+            </th>
+            <th>
+                Semester
+            </th>
+            <th>
+                Assigned To
+            </th>
+        </tr>
+        <tbody id="tblAssignCourse"></tbody>
+    </table>
+
+</div>
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+
+$(document).ready(function ()
+{
+    $("#DepartmentId").change(function () {
+        var id = $("#DepartmentId").val();
+        $.ajax({
+            type: "GET",
+            url: "@(Url.Action("GetCourseStatics", "AssignCourses"))",
+            data: { departmentId: id },
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                var row = "";
+                $.each(data, function (index, item) {
+                    row += "<tr>" +
+                        "<td>" + item.Code + "</td>"+
+                        "<td>" + item.Name + "</td>" +
+                        "<td>" + item.Semester + "</td>" +
+                        "<td>" + item.Teacher + "</td>" +
+                        "</tr>";
+                });
+                $("#tblAssignCourse").html(row);
+            },
+            error: function () {
+            }
+
+        });
+
+    });
+
+    });
+</script>

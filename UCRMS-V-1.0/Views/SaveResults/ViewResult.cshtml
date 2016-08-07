@@ -1,0 +1,67 @@
+﻿@using System.Collections
+@using UCRMS_V_1._0.Models.MyModels
+@model IEnumerable<UCRMS_V_1._0.Models.MyModels.Course>
+
+@{
+    ViewBag.Title = "ViewResult";
+}
+
+<h2>View Result</h2>
+
+<p>
+    @Html.ActionLink("Save New Result", "SaveResult")
+</p>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        <div class="form-group">
+            <div class="col-md-10">
+                <b>Student Reg. No.</b>
+                @Html.DropDownList("StudentId", String.Empty)
+            </div>
+        </div>
+
+        <div id="StudentInfo">
+            @Html.Partial("LoadStudentInfo")
+        </div>
+    </div>
+
+    <input type="button" value="Make PDF" id="MakePdf" class="btn btn-info" />
+
+}
+<div id="LoadResultInfo">
+    @Html.Partial("LoadResult")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script src="~/Scripts/jquery-2.2.0.js"></script>
+<script>
+    function FillStudentInfo(id) {
+        $("#StudentInfo").load('@Url.Action("LoadStudentInfo")', { studentId: id });
+    }
+    function FillData(id) {
+        $('#LoadResultInfo').load('@Url.Action("LoadResult")', { studentId: id });
+    }
+
+    $(document).ready($(function () {
+        $("#StudentId").change(function () {
+            var id = $("#StudentId").val();
+            FillStudentInfo(id);
+            FillData(id);
+
+        });
+        $("#MakePdf").click(function () {
+            var studentId = $("#StudentId").val();
+            document.location = '@Url.Action("GeneratePDF", "SaveResults")' + '?' + 'studentId=' + studentId;
+
+            return false;
+        });
+    }));
+</script>
