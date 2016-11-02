@@ -44,36 +44,17 @@ namespace UCRMS_V_1._0.Controllers.MyControllers
 
             return View(department);
         }
-
-
-
+        
         public JsonResult IsCodeAvailble( string code )
         {
             var departmentCode = db.Departments.FirstOrDefault(x => x.Code == code);
-            if (departmentCode != null)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-
-            }
+            return Json(departmentCode == null, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult IsNameAvailble( string name )
         {
             var departmentName = db.Departments.FirstOrDefault(x => x.Name == name);
-
-            if (departmentName != null)
-            {
-                return Json(false, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json(true, JsonRequestBehavior.AllowGet);
-
-            }
+            return Json(departmentName == null, JsonRequestBehavior.AllowGet);
         }
     }
 }
